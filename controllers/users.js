@@ -3,25 +3,11 @@ const jwt = require('jsonwebtoken');
 
 const { NODE_ENV, SECRET_SIGNING_KEY } = require('../utils/config');
 const { PASSWORD_REGEX } = require('../utils/validation');
-const RESPONSE_MESSAGES = require('../utils/constants');
 
 const INACCURATE_DATA_ERROR = require('../utils/errors/InaccurateDataError'); // 400
 const UNAUTHORIZED_ERROR = require('../utils/errors/UnauthorizedError'); // 401
 const NOT_FOUND_ERROR = require('../utils/errors/NotFoundError'); // 404
 const CONFLICT_ERROR = require('../utils/errors/ConflictError'); // 409
-
-const { registrationSuccess } = RESPONSE_MESSAGES[201].users;
-
-const {
-  cast,
-  passwordRequirements,
-  validationRegistration,
-  validationUpdate,
-} = RESPONSE_MESSAGES[400].users;
-
-const { unathorized } = RESPONSE_MESSAGES[401].users;
-const { idNotFound } = RESPONSE_MESSAGES[404].users;
-const { emailDuplication } = RESPONSE_MESSAGES[409].users;
 
 const User = require('../models/user');
 
@@ -29,7 +15,7 @@ function registerUser(req, res, next) {
   const { email, password, name } = req.body;
 
   if (!PASSWORD_REGEX.test(password)) {
-    throw new INACCURATE_DATA_ERROR(passwordRequirements);
+    throw new INACCURATE_DATA_ERROR('Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол');
   }
 
   bcrypt.hash(password, 10)
@@ -38,12 +24,12 @@ function registerUser(req, res, next) {
       password: hash,
       name,
     }))
-    .then(() => res.status(201).send({ message: registrationSuccess }))
+    .then(() => res.status(201).send({ message: 'Пользователь успешно зарегистрирован на сайт' }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new CONFLICT_ERROR(emailDuplication));
+        next(new CONFLICT_ERROR('Пользователь с такой почтой уже зарегистрирован'));
       } else if (err.name === 'ValidationError') {
-        next(new INACCURATE_DATA_ERROR(validationRegistration));
+        next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при регистрации пользователя'));
       } else {
         next(err);
       }
@@ -54,7 +40,7 @@ function loginUser(req, res, next) {
   const { email, password } = req.body;
 
   if (!PASSWORD_REGEX.test(password)) {
-    throw new INACCURATE_DATA_ERROR(passwordRequirements);
+    throw new INACCURATE_DATA_ERROR('Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол');
   }
 
   User
@@ -70,7 +56,7 @@ function loginUser(req, res, next) {
         return res.send({ token });
       }
 
-      throw new UNAUTHORIZED_ERROR(unathorized);
+      throw new UNAUTHORIZED_ERROR('Неправильный пароль');
     })
     .catch(next);
 }
@@ -83,11 +69,11 @@ function getCurrentUserInfo(req, res, next) {
     .then((user) => {
       if (user) return res.send(user);
 
-      throw new NOT_FOUND_ERROR(idNotFound);
+      throw new NOT_FOUND_ERROR('Пользователь с таким id не найден');
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new INACCURATE_DATA_ERROR(cast));
+        next(new INACCURATE_DATA_ERROR('Передан некорректный id пользователя'));
       } else {
         next(err);
       }
@@ -113,19 +99,19 @@ function setCurrentUserInfo(req, res, next) {
     .then((user) => {
       if (user) return res.send(user);
 
-      throw new NOT_FOUND_ERROR(idNotFound);
+      throw new NOT_FOUND_ERROR('Пользователь с таким id не найден');
     })
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new CONFLICT_ERROR(emailDuplication));
+        return next(new CONFLICT_ERROR('Пользователь с такой почтой уже зарегистрирован'));
       }
 
       if (err.name === 'CastError') {
-        return next(new INACCURATE_DATA_ERROR(cast));
+        return next(new INACCURATE_DATA_ERROR('Передан некорректный id пользователя'));
       }
 
       if (err.name === 'ValidationError') {
-        return next(new INACCURATE_DATA_ERROR(validationUpdate));
+        return next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при обновлении данных профиля пользователя'));
       }
 
       return next(err);
