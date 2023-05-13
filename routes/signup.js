@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
-router.post('/signup', registerUserValidation, registerUser);
+const { registerUserValidation } = require('../utils/validation');
+
+router.post('/signup', registerUserValidation, );
 
 module.exports = router;
