@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const limiter = require('./middlewares/rateLimiter');
+const router = require('./routes/index');
 
 const { MONGODB_URL } = require('./utils/constants');
 
@@ -15,6 +19,12 @@ mongoose.set('strictQuery', false);
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+app.use(requestLogger);
+app.use(limiter);
+app.use(router);
+app.use(errorLogger);
+app.use(errors());
 
  app.listen(PORT, () => {
   console.log (`App listening on port ${PORT}`);
