@@ -11,7 +11,7 @@ const CONFLICT_ERROR = require('../utils/errors/ConflictError'); // 409
 
 const User = require('../models/user');
 
-function registerUser(req, res, next) {
+function createUser(req, res, next) {
   const { email, password, name } = req.body;
 
   if (!PASSWORD_REGEX.test(password)) {
@@ -36,7 +36,7 @@ function registerUser(req, res, next) {
     });
 }
 
-function loginUser(req, res, next) {
+function login(req, res, next) {
   const { email, password } = req.body;
 
   if (!PASSWORD_REGEX.test(password)) {
@@ -61,7 +61,7 @@ function loginUser(req, res, next) {
     .catch(next);
 }
 
-function getCurrentUserInfo(req, res, next) {
+function getUserInfo(req, res, next) {
   const { _id } = req.user;
 
   User
@@ -80,7 +80,7 @@ function getCurrentUserInfo(req, res, next) {
     });
 }
 
-function setCurrentUserInfo(req, res, next) {
+function updateUserInfo(req, res, next) {
   const { email, name } = req.body;
   const { _id } = req.user;
 
@@ -119,9 +119,9 @@ function setCurrentUserInfo(req, res, next) {
 }
 
 module.exports = {
-  registerUser,
-  loginUser,
+  createUser,
+  login,
 
-  getCurrentUserInfo,
-  setCurrentUserInfo,
+  getUserInfo,
+  updateUserInfo,
 };

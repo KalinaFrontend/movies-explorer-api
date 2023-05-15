@@ -47,7 +47,7 @@ function createMovie(req, res, next) {
     });
 }
 
-function receiveMovies(req, res, next) {
+function getMovies(req, res, next) {
   const { _id } = req.user;
 
   Movie
@@ -91,6 +91,6 @@ function deleteMovie(req, res, next) {
 
 module.exports = {
   createMovie,
-  receiveMovies,
+  getMovies,
   deleteMovie,
 };
