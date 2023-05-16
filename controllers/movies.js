@@ -13,11 +13,11 @@ function createMovie(req, res, next) {
     year,
     description,
     image,
-    trailerLink,
-    thumbnail,
-    movieId,
+    trailer,
     nameRU,
     nameEN,
+    thumbnail,
+    movieId,
   } = req.body;
 
   const { _id } = req.user;
@@ -30,12 +30,12 @@ function createMovie(req, res, next) {
       year,
       description,
       image,
-      trailerLink,
+      trailer,
       thumbnail,
-      owner: _id,
-      movieId,
       nameRU,
       nameEN,
+      owner: _id,
+      movieId,
     })
     .then(() => res.status(201).send({ message: 'Фильм успешно сохранен' }))
     .catch((err) => {

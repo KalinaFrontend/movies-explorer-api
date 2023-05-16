@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { NODE_ENV, SECRET_SIGNING_KEY } = require('../utils/config');
+const { NODE_ENV, JWT_SECRET } = require('../utils/constants');
 const { PASSWORD_REGEX } = require('../utils/validation');
 
 const INACCURATE_DATA_ERROR = require('../utils/errors/InaccurateDataError'); // 400
@@ -49,7 +49,7 @@ function login(req, res, next) {
       if (_id) {
         const token = jwt.sign(
           { _id },
-          NODE_ENV === 'production' ? SECRET_SIGNING_KEY : 'dev-secret',
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
           { expiresIn: '7d' },
         );
 

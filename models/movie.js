@@ -41,7 +41,7 @@ const movieSchema = new Schema(
       },
     },
 
-    trailerLink: {
+    trailer: {
       type: String,
       required: true,
       validate: {
@@ -59,6 +59,16 @@ const movieSchema = new Schema(
       },
     },
 
+    nameRU: {
+      type: String,
+      required: true,
+    },
+
+    nameEN: {
+      type: String,
+      required: true,
+    },
+
     owner: {
       type: ObjectId,
       ref: 'user',
@@ -67,16 +77,6 @@ const movieSchema = new Schema(
 
     movieId: {
       type: Number,
-      required: true,
-    },
-
-    nameRU: {
-      type: String,
-      required: true,
-    },
-
-    nameEN: {
-      type: String,
       required: true,
     },
   },
