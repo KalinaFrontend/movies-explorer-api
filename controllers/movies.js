@@ -37,10 +37,10 @@ function createMovie(req, res, next) {
       nameRU,
       nameEN,
     })
-    .then(() => res.status(201).send({ message: 'Фильм успешно сохранен в личном кабинете пользователя' }))
+    .then(() => res.status(201).send({ message: 'Фильм успешно сохранен' }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при сохранении фильма в личном кабинете пользователя'));
+        next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при сохранении фильма'));
       } else {
         next(err);
       }
@@ -78,12 +78,12 @@ function deleteMovie(req, res, next) {
 
       const { owner: movieOwnerId } = movie;
       if (movieOwnerId.valueOf() !== userId) {
-        throw new FORBIDDEN_ERROR('Нет прав доступа для удаления фильма из личного кабинета другого пользователя');
+        throw new FORBIDDEN_ERROR('Нет прав доступа для удаления фильма');
       }
 
       movie
         .deleteOne()
-        .then(() => res.send({ message:'Фильм успешно удален из личного кабинета пользователя'}))
+        .then(() => res.send({ message:'Фильм успешно удален'}))
         .catch(next);
     })
     .catch(next);

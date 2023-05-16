@@ -24,10 +24,10 @@ function createUser(req, res, next) {
       password: hash,
       name,
     }))
-    .then(() => res.status(201).send({ message: 'Пользователь успешно зарегистрирован на сайт' }))
+    .then(() => res.status(201).send({ message: 'Пользователь успешно зарегистрирован' }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new CONFLICT_ERROR('Пользователь с такой почтой уже зарегистрирован'));
+        next(new CONFLICT_ERROR('Такой пользователь уже зарегистрирован'));
       } else if (err.name === 'ValidationError') {
         next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при регистрации пользователя'));
       } else {
@@ -56,7 +56,7 @@ function login(req, res, next) {
         return res.send({ token });
       }
 
-      throw new UNAUTHORIZED_ERROR('Неправильный пароль');
+      throw new UNAUTHORIZED_ERROR('Неверный пароль');
     })
     .catch(next);
 }
@@ -103,7 +103,7 @@ function updateUserInfo(req, res, next) {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new CONFLICT_ERROR('Пользователь с такой почтой уже зарегистрирован'));
+        return next(new CONFLICT_ERROR('Такой пользователь уже зарегистрирован'));
       }
 
       if (err.name === 'CastError') {
@@ -111,7 +111,7 @@ function updateUserInfo(req, res, next) {
       }
 
       if (err.name === 'ValidationError') {
-        return next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при обновлении данных профиля пользователя'));
+        return next(new INACCURATE_DATA_ERROR('Переданы некорректные данные при изменении данных пользователя'));
       }
 
       return next(err);

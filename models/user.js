@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { compare } = require('bcryptjs');
 
 const { Schema } = mongoose;
 
-const NOT_FOUND_ERROR = require('../utils/errors/NotFoundError');
-const RESPONSE_MESSAGES = require('../utils/constants');
+const {
+  UnauthorizedError,
+} = require('../utils/errors/UnauthorizedError');
 
-const { emailRegistration } = RESPONSE_MESSAGES[404].users;
 
 const { EMAIL_REGEX } = require('../utils/validation');
 
@@ -48,15 +49,15 @@ const userSchema = new Schema(
         )
           .then((user) => {
             if (user) {
-              return bcrypt.compare(password, user.password)
+              return compare(password, user.password)
                 .then((matched) => {
                   if (matched) return user;
 
-                  return Promise.reject();
+                  return Promise.reject(new UnauthorizedError('Неверная почта или пароль'));
                 });
             }
 
-            throw new NOT_FOUND_ERROR(emailRegistration);
+            return Promise.reject(new UnauthorizedError('Неверная почта или пароль'));
           });
       },
     },
