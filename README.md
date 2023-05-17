@@ -47,7 +47,7 @@ https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria
 <div align="right">(<a href="#summary">к оглавлению</a>)</div>
 
 <a name="installation"><h2>3. Установка и запуск приложения в локальном репозитории</h2></a>
-1. `git clone https://github.com/elrouss/movies-explorer-api.git` - клонировать репозиторий (HTTPS) на свое устройство
+1. `https://github.com/KalinaFrontend/movies-explorer-api.git` - клонировать репозиторий (HTTPS) на свое устройство
 2. `npm i` - установить зависимости
 3. `npm run dev` - запустить приложение в режиме разработчика c hot-reload (в браузере ввести ссылку http://localhost:3000/, где 3000 - рабочий порт)
 *  `npm run start` - запустить dev-режим сборки приложения

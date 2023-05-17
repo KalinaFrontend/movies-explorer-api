@@ -10,7 +10,6 @@ const CentralError = require('./utils/errors/CentralError'); // 500
 
 const { MONGODB_URL } = require('./utils/config');
 
-// eslint-disable-next-line no-undef
 const { PORT = 3000 } = process.env;
 
 const app = express();
