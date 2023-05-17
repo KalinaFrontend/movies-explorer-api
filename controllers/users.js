@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { NODE_ENV, JWT_SECRET } = require('../utils/constants');
+const { NODE_ENV, JWT_SECRET } = require('../utils/config');
 const { PASSWORD_REGEX } = require('../utils/validation');
 
 const INACCURATE_DATA_ERROR = require('../utils/errors/InaccurateDataError'); // 400

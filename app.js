@@ -6,12 +6,12 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimiter');
 const router = require('./routes/index');
-const CentralError = require('./utils/errors/CentralError'); //500
+const CentralError = require('./utils/errors/CentralError'); // 500
 
-const { MONGODB_URL } = require('./utils/constants');
+const { MONGODB_URL } = require('./utils/config');
 
+// eslint-disable-next-line no-undef
 const { PORT = 3000 } = process.env;
-
 
 const app = express();
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(express.json());
 
 mongoose.set('strictQuery', false);
- mongoose.connect(MONGODB_URL, {
+mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -33,5 +33,5 @@ app.use(errors());
 app.use(CentralError);
 
 app.listen(PORT, () => {
-  console.log (`App listening on port ${PORT}`);
-})
+  console.log(`App listening on port ${PORT}`);
+});

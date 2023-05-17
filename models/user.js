@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const { compare } = require('bcryptjs');
 
 const { Schema } = mongoose;
@@ -7,7 +6,6 @@ const { Schema } = mongoose;
 const {
   UnauthorizedError,
 } = require('../utils/errors/UnauthorizedError');
-
 
 const { EMAIL_REGEX } = require('../utils/validation');
 

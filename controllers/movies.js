@@ -2,7 +2,6 @@ const INACCURATE_DATA_ERROR = require('../utils/errors/InaccurateDataError'); //
 const FORBIDDEN_ERROR = require('../utils/errors/ForbiddenError'); // 403
 const NOT_FOUND_ERROR = require('../utils/errors/NotFoundError'); // 404
 
-
 const Movie = require('../models/movie');
 
 function createMovie(req, res, next) {
@@ -83,7 +82,7 @@ function deleteMovie(req, res, next) {
 
       movie
         .deleteOne()
-        .then(() => res.send({ message:'Фильм успешно удален'}))
+        .then(() => res.send({ message: 'Фильм успешно удален' }))
         .catch(next);
     })
     .catch(next);
