@@ -70,6 +70,6 @@ https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria
 <div align="right">(<a href="#summary">к оглавлению</a>)</div>
 
 <a name="enhancement"><h2>6. Статус проекта</h2></a>
-Проект не завершен
+Не завершен
 
 <div align="right">(<a href="#summary">к оглавлению</a>)</div>
