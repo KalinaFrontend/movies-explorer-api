@@ -1,13 +1,11 @@
-require('dotenv').config();
-
 const {
   NODE_ENV,
-  JWT_SECRET,
+  SECRET_SIGNING_KEY,
   MONGODB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
 } = process.env;
 
-export default {
+module.exports = {
   NODE_ENV,
-  JWT_SECRET,
+  SECRET_SIGNING_KEY,
   MONGODB_URL,
 };
