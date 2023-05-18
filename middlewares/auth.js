@@ -6,6 +6,7 @@ const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
+  console.log(JWT_SECRET);
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new UnauthorizedError('Необходима авторизация'));
